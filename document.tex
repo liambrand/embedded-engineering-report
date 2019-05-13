@@ -1,4 +1,8 @@
 \documentclass[]{report}
+\usepackage{url}
+\usepackage{amsmath}
+\usepackage{amsmath,amssymb}
+\usepackage[numbers]{natbib}
 
 
 % Title Page
@@ -12,20 +16,39 @@
 
 	\chapter{Real Time Scheduling}
 		\subsection{Basic Scheduling Analysis}
+			\subsubsection{Question a}
+			The utilisation of a task set is given by \cite{awslambdadocs}
+			
+			\begin{equation*}
+				U = \sum_{i=1}^{N} \frac{C\textsubscript{i}}{T\textsubscript{i}}
+			\end{equation*}
+			%equation
+			
+			Where N is the number of tasks, C is the task's worst-case execution time and T is the task's period. The given task set's utilization is approximately 0.99.
+			
+			\subsubsection{Question b}
+			\subsubsection{Question c}
+			\subsubsection{Question d}
+			\subsubsection{Question e}
 		
 		\subsection{Scheduling with Shared Resources}
-	
+			\subsubsection{Question a}
+			\subsubsection{Question b}
 	
 	\chapter{A Distributed Real-time System}
-	
+		
 	
 	
 	\chapter{Reliability}
 		\section{Section 1}
 			\subsection{Question a}
-				\subsubsection{Fault Prevention}
-				\subsubsection{Software Fault Tolerance}
-				\subsubsection{Hardware Fault Tolerance}
+				\subsubsection{Fail-Operational}
+				\subsubsection{Fail-Active}
+				\subsubsection{Fail-Safe}
+				\subsubsection{High Availability}
+				%\subsubsection{Fault Prevention}
+				%\subsubsection{Software Fault Tolerance}
+				%\subsubsection{Hardware Fault Tolerance}
 				
 				
 				
@@ -39,14 +62,12 @@
 				\subsubsection{Architecture Recommendation}
 				
 				
-				%\subsubsection{Fail-Operational}
-				%\subsubsection{Fail-Active}
-				%\subsubsection{Fail-Safe}
-				%\subsubsection{High Availability}
 			
 			
 			\subsection{Question c}
 
 
+	\bibliographystyle{plainnat}
+	\bibliography{papers}
 
 \end{document}          
