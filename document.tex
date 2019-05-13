@@ -16,8 +16,8 @@
 
 	\chapter{Real Time Scheduling}
 		\subsection{Basic Scheduling Analysis}
-			\subsubsection{Question a}
-			The utilisation of a task set is given by \cite{awslambdadocs}
+			\subsubsection{(a)}
+			The utilisation of a task set is given by
 			
 			\begin{equation*}
 				U = \sum_{i=1}^{N} \frac{C\textsubscript{i}}{T\textsubscript{i}}
@@ -26,8 +26,28 @@
 			
 			Where N is the number of tasks, C is the task's worst-case execution time and T is the task's period. The given task set's utilization is approximately 0.99.
 			
-			\subsubsection{Question b}
+			\subsubsection{(b)}
+			First a utilisation-based schedulability test can be used to determine whether or not the task set is schedulable using rate-monotonic priority assignment.
+			
+			The necessary test is the following. If this test is negative, the task set is definitely not schedulable.
+			\begin{equation*}
+			U \leq 1
+			\end{equation*}
+			
+			The test is positive, so the sufficient schedulability test can be carried about. The sufficient test is the following, where \textit{n} is the number of tasks.
+			
+			\begin{equation*}
+			U \leq n(2^\frac{1}{n} - 1)
+			\end{equation*}
+			
+			For the given task set with 6 tasks, this formula equals approximately 0.73, meaning this test is negative. If the necessary schedulability test is positive but the sufficient schedulability test is negative, a better schedulability test is needed. 
+			
+			
+			
 			\subsubsection{Question c}
+			
+			
+			
 			\subsubsection{Question d}
 			\subsubsection{Question e}
 		
@@ -43,9 +63,16 @@
 		\section{Section 1}
 			\subsection{Question a}
 				\subsubsection{Fail-Operational}
+				Fail-operational is when a system is still capable of full performance in the presence of faults, with no external signs of the fault manifesting. 
+				
 				\subsubsection{Fail-Active}
+				Fail-active systems can continue their operation when a fault is encountered, but will do so at a reduced performance.
+				
 				\subsubsection{Fail-Safe}
+				Fail-safe systems will cease operation upon encountering a fault, and enter a safe mode.
+				
 				\subsubsection{High Availability}
+				High availability systems cease operation upon encountering a fault, but must be returned to operation as quick as possible, this can involve hot swapping system units whilst the system is operating.
 				%\subsubsection{Fault Prevention}
 				%\subsubsection{Software Fault Tolerance}
 				%\subsubsection{Hardware Fault Tolerance}
