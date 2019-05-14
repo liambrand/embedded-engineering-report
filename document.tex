@@ -52,18 +52,136 @@
 			\subsubsection{(c)}
 			First the WCRT (worst case response time) for the task set must be calculated. This can be achieved via the given formula.
 			\begin{equation*}
-			R\textsuperscript{i} = C\textsuperscript{i} + \sum_{j\inhp(i)}
+			R_i = C_i + \sum_{j \in hp(i)} \left\lceil \frac{R_i}{T_j} \right\rceil C_j
 			\end{equation*}
 			
 			Where R is response time, C is cpu utilisation, and hp(i) denotes the set of tasks of priority higher than i.
+
+			This calculation is repeated for each task until the calculate task response time converges twice. The following shows each iteration of this formula being applied to the task set.
+
+		\textbf{Iteration 1}
+		E(C=14, T=48, D=48): r = 14
+		C(C=6, T=240, D=240): r = 20
+		A(C=42, T=330, D=60): r = 76
+		D(C=132, T=360, D=300): r = 250
+		B(C=72, T=720, D=660): r = 342
+		F(C=18, T=4800, D=120): r = 360
+
+		\textbf{Iteration 2}
+		E(C=14, T=48, D=48): r = 14
+		C(C=6, T=240, D=240): r = 20
+		A(C=42, T=330, D=60): r = 76
+		D(C=132, T=360, D=300): r = 270
+		B(C=72, T=720, D=660): r = 412
+		F(C=18, T=4800, D=120): r = 430
+
+
+		\textbf{Iteration 3}
+		E(C=14, T=48, D=48): r = 14
+		C(C=6, T=240, D=240): r = 20
+		A(C=42, T=330, D=60): r = 76
+		D(C=132, T=360, D=300): r = 270
+		B(C=72, T=720, D=660): r = 558
+		F(C=18, T=4800, D=120): r = 576
+
+		\textbf{Iteration 4}
+		E(C=14, T=48, D=48): r = 14
+		C(C=6, T=240, D=240): r = 20
+		A(C=42, T=330, D=60): r = 76
+		D(C=132, T=360, D=300): r = 270
+		B(C=72, T=720, D=660): r = 606
+		F(C=18, T=4800, D=120): r = 624
+
+		\textbf{Iteration 5}
+		E(C=14, T=48, D=48): r = 14
+		C(C=6, T=240, D=240): r = 20
+		A(C=42, T=330, D=60): r = 76
+		D(C=132, T=360, D=300): r = 270
+		B(C=72, T=720, D=660): r = 620
+		F(C=18, T=4800, D=120): r = 638
+
+		\textbf{Iteration 6}
+		E(C=14, T=48, D=48): r = 14
+		C(C=6, T=240, D=240): r = 20
+		A(C=42, T=330, D=60): r = 76
+		D(C=132, T=360, D=300): r = 270
+		B(C=72, T=720, D=660): r = 620
+		F(C=18, T=4800, D=120): r = 652
+
+		\textbf{Iteration 7}
+		E(C=14, T=48, D=48): r = 14
+		C(C=6, T=240, D=240): r = 20
+		A(C=42, T=330, D=60): r = 76
+		D(C=132, T=360, D=300): r = 270
+		B(C=72, T=720, D=660): r = 620
+		F(C=18, T=4800, D=120): r = 652
 			
-			schedulable, however two tasks will miss their deadline (A and F)
+			The final iteration shows that the task set is schedulabe, as each of the task periods are less than or equal to the task response times. However, tasks A and F have a response time that exceeds their deadline, so these tasks will not meet their deadline.
+			
 			
 			
 			\subsubsection{Question d}
-			The same calculations were performed as the ones in (c), but this time the tasks were organised by deadline (lowest to highest) instead of by their period.
-			
-			yes, however task A will miss its deadline
+			The same calculations were performed as the ones in (c), but this time the tasks were organised by deadline (lowest to highest) instead of by their period. Each iteration is shown.
+
+			\textbf{Iteration 1}
+			E(C=14, T=48, D=48): r = 14
+			A(C=42, T=330, D=60): r = 70
+			F(C=18, T=4800, D=120): r = 88
+			C(C=6, T=240, D=240): r = 94
+			D(C=132, T=360, D=300): r = 268
+			B(C=72, T=720, D=660): r = 360
+
+			\textbf{Iteration 2}
+			E(C=14, T=48, D=48): r = 14
+			A(C=42, T=330, D=60): r = 70
+			F(C=18, T=4800, D=120): r = 88
+			C(C=6, T=240, D=240): r = 94
+			D(C=132, T=360, D=300): r = 288
+			B(C=72, T=720, D=660): r = 430
+
+			\textbf{Iteration 3}
+			E(C=14, T=48, D=48): r = 14
+			A(C=42, T=330, D=60): r = 70
+			F(C=18, T=4800, D=120): r = 88
+			C(C=6, T=240, D=240): r = 94
+			D(C=132, T=360, D=300): r = 288
+			B(C=72, T=720, D=660): r = 576
+
+
+			\textbf{Iteration 4}
+			E(C=14, T=48, D=48): r = 14
+			A(C=42, T=330, D=60): r = 70
+			F(C=18, T=4800, D=120): r = 88
+			C(C=6, T=240, D=240): r = 94
+			D(C=132, T=360, D=300): r = 288
+			B(C=72, T=720, D=660): r = 624
+
+			\textbf{Iteration 5}
+			E(C=14, T=48, D=48): r = 14
+			A(C=42, T=330, D=60): r = 70
+			F(C=18, T=4800, D=120): r = 88
+			C(C=6, T=240, D=240): r = 94
+			D(C=132, T=360, D=300): r = 288
+			B(C=72, T=720, D=660): r = 638
+
+			\textbf{Iteration 6}
+			E(C=14, T=48, D=48): r = 14
+			A(C=42, T=330, D=60): r = 70
+			F(C=18, T=4800, D=120): r = 88
+			C(C=6, T=240, D=240): r = 94
+			D(C=132, T=360, D=300): r = 288
+			B(C=72, T=720, D=660): r = 652
+
+
+			\textbf{Iteration 7}
+			E(C=14, T=48, D=48): r = 14
+			A(C=42, T=330, D=60): r = 70
+			F(C=18, T=4800, D=120): r = 88
+			C(C=6, T=240, D=240): r = 94
+			D(C=132, T=360, D=300): r = 288
+			B(C=72, T=720, D=660): r = 652
+		
+			The final iteration shows that each task's response time satisfies the condition of being less than or equal to the task period, so the set is schedulable using deadline-monotonic fixed-priority assignment. Task A's response time is higher than its deadline however, so it will not meet its deadline.
 			
 			\subsubsection{Question e}
 		
