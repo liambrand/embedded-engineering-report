@@ -55,153 +55,151 @@
 			R_i = C_i + \sum_{j \in hp(i)} \left\lceil \frac{R_i}{T_j} \right\rceil C_j
 			\end{equation*}
 			
-			Where R is response time, C is cpu utilisation, and hp(i) denotes the set of tasks of priority higher than i.
+			Where R is response time, C is CPU utilisation, and hp(i) denotes the set of tasks of priority higher than i.
 
 			This calculation is repeated for each task until the calculate task response time converges twice. The following shows each iteration of this formula being applied to the task set.
+			\medskip
 
-		\textbf{Iteration 1}
-		E(C=14, T=48, D=48): r = 14
-		C(C=6, T=240, D=240): r = 20
-		A(C=42, T=330, D=60): r = 76
-		D(C=132, T=360, D=300): r = 250
-		B(C=72, T=720, D=660): r = 342
-		F(C=18, T=4800, D=120): r = 360
-
-		\textbf{Iteration 2}
-		E(C=14, T=48, D=48): r = 14
-		C(C=6, T=240, D=240): r = 20
-		A(C=42, T=330, D=60): r = 76
-		D(C=132, T=360, D=300): r = 270
-		B(C=72, T=720, D=660): r = 412
-		F(C=18, T=4800, D=120): r = 430
-
-
-		\textbf{Iteration 3}
-		E(C=14, T=48, D=48): r = 14
-		C(C=6, T=240, D=240): r = 20
-		A(C=42, T=330, D=60): r = 76
-		D(C=132, T=360, D=300): r = 270
-		B(C=72, T=720, D=660): r = 558
-		F(C=18, T=4800, D=120): r = 576
-
-		\textbf{Iteration 4}
-		E(C=14, T=48, D=48): r = 14
-		C(C=6, T=240, D=240): r = 20
-		A(C=42, T=330, D=60): r = 76
-		D(C=132, T=360, D=300): r = 270
-		B(C=72, T=720, D=660): r = 606
-		F(C=18, T=4800, D=120): r = 624
-
-		\textbf{Iteration 5}
-		E(C=14, T=48, D=48): r = 14
-		C(C=6, T=240, D=240): r = 20
-		A(C=42, T=330, D=60): r = 76
-		D(C=132, T=360, D=300): r = 270
-		B(C=72, T=720, D=660): r = 620
-		F(C=18, T=4800, D=120): r = 638
-
-		\textbf{Iteration 6}
-		E(C=14, T=48, D=48): r = 14
-		C(C=6, T=240, D=240): r = 20
-		A(C=42, T=330, D=60): r = 76
-		D(C=132, T=360, D=300): r = 270
-		B(C=72, T=720, D=660): r = 620
-		F(C=18, T=4800, D=120): r = 652
-
-		\textbf{Iteration 7}
-		E(C=14, T=48, D=48): r = 14
-		C(C=6, T=240, D=240): r = 20
-		A(C=42, T=330, D=60): r = 76
-		D(C=132, T=360, D=300): r = 270
-		B(C=72, T=720, D=660): r = 620
-		F(C=18, T=4800, D=120): r = 652
+			\textbf{Iteration 1} \newline
+			E(C=14, T=48, D=48): r = 14 \newline
+			C(C=6, T=240, D=240): r = 20 \newline
+			A(C=42, T=330, D=60): r = 76 \newline
+			D(C=132, T=360, D=300): r = 250 \newline
+			B(C=72, T=720, D=660): r = 342 \newline
+			F(C=18, T=4800, D=120): r = 360 \newline
+	
+			\textbf{Iteration 2} \newline
+			E(C=14, T=48, D=48): r = 14 \newline
+			C(C=6, T=240, D=240): r = 20 \newline
+			A(C=42, T=330, D=60): r = 76 \newline
+			D(C=132, T=360, D=300): r = 270 \newline
+			B(C=72, T=720, D=660): r = 412 \newline
+			F(C=18, T=4800, D=120): r = 430 \newline
+	
+			\textbf{Iteration 3} \newline
+			E(C=14, T=48, D=48): r = 14 \newline
+			C(C=6, T=240, D=240): r = 20 \newline
+			A(C=42, T=330, D=60): r = 76 \newline
+			D(C=132, T=360, D=300): r = 270 \newline
+			B(C=72, T=720, D=660): r = 558 \newline
+			F(C=18, T=4800, D=120): r = 576 \newline
+	
+			\textbf{Iteration 4} \newline
+			E(C=14, T=48, D=48): r = 14 \newline
+			C(C=6, T=240, D=240): r = 20 \newline
+			A(C=42, T=330, D=60): r = 76 \newline
+			D(C=132, T=360, D=300): r = 270 \newline
+			B(C=72, T=720, D=660): r = 606 \newline
+			F(C=18, T=4800, D=120): r = 624 \newline
+	
+			\textbf{Iteration 5} \newline
+			E(C=14, T=48, D=48): r = 14 \newline
+			C(C=6, T=240, D=240): r = 20 \newline
+			A(C=42, T=330, D=60): r = 76 \newline
+			D(C=132, T=360, D=300): r = 270 \newline
+			B(C=72, T=720, D=660): r = 620 \newline
+			F(C=18, T=4800, D=120): r = 638 \newline
+	
+			\textbf{Iteration 6} \newline
+			E(C=14, T=48, D=48): r = 14 \newline
+			C(C=6, T=240, D=240): r = 20 \newline
+			A(C=42, T=330, D=60): r = 76 \newline
+			D(C=132, T=360, D=300): r = 270 \newline
+			B(C=72, T=720, D=660): r = 620 \newline
+			F(C=18, T=4800, D=120): r = 652 \newline
+	
+			\textbf{Iteration 7} \newline
+			E(C=14, T=48, D=48): r = 14 \newline
+			C(C=6, T=240, D=240): r = 20 \newline
+			A(C=42, T=330, D=60): r = 76 \newline
+			D(C=132, T=360, D=300): r = 270 \newline
+			B(C=72, T=720, D=660): r = 620 \newline
+			F(C=18, T=4800, D=120): r = 652 \newline
 			
-			The final iteration shows that the task set is schedulabe, as each of the task periods are less than or equal to the task response times. However, tasks A and F have a response time that exceeds their deadline, so these tasks will not meet their deadline.
-			
-			
+			The final iteration shows that the task set is schedulable, as each of the task periods are less than or equal to the task response times. However, tasks A and F have a response time that exceeds their deadline, so these tasks will not meet their deadline.
 			
 			\subsubsection{(d)}
 			The same calculations were performed as the ones in (c), but this time the tasks were organised by deadline (lowest to highest) instead of by their period. Each iteration is shown.
+			\medskip
 
-			\textbf{Iteration 1}
-			E(C=14, T=48, D=48): r = 14
-			A(C=42, T=330, D=60): r = 70
-			F(C=18, T=4800, D=120): r = 88
-			C(C=6, T=240, D=240): r = 94
-			D(C=132, T=360, D=300): r = 268
-			B(C=72, T=720, D=660): r = 360
+			\textbf{Iteration 1} \newline
+			E(C=14, T=48, D=48): r = 14 \newline
+			A(C=42, T=330, D=60): r = 70 \newline
+			F(C=18, T=4800, D=120): r = 88 \newline
+			C(C=6, T=240, D=240): r = 94 \newline
+			D(C=132, T=360, D=300): r = 268 \newline
+			B(C=72, T=720, D=660): r = 360 \newline
 
-			\textbf{Iteration 2}
-			E(C=14, T=48, D=48): r = 14
-			A(C=42, T=330, D=60): r = 70
-			F(C=18, T=4800, D=120): r = 88
-			C(C=6, T=240, D=240): r = 94
-			D(C=132, T=360, D=300): r = 288
-			B(C=72, T=720, D=660): r = 430
+			\textbf{Iteration 2} \newline
+			E(C=14, T=48, D=48): r = 14 \newline
+			A(C=42, T=330, D=60): r = 70 \newline
+			F(C=18, T=4800, D=120): r = 88 \newline
+			C(C=6, T=240, D=240): r = 94 \newline
+			D(C=132, T=360, D=300): r = 288 \newline
+			B(C=72, T=720, D=660): r = 430 \newline
 
-			\textbf{Iteration 3}
-			E(C=14, T=48, D=48): r = 14
-			A(C=42, T=330, D=60): r = 70
-			F(C=18, T=4800, D=120): r = 88
-			C(C=6, T=240, D=240): r = 94
-			D(C=132, T=360, D=300): r = 288
-			B(C=72, T=720, D=660): r = 576
-
-
-			\textbf{Iteration 4}
-			E(C=14, T=48, D=48): r = 14
-			A(C=42, T=330, D=60): r = 70
-			F(C=18, T=4800, D=120): r = 88
-			C(C=6, T=240, D=240): r = 94
-			D(C=132, T=360, D=300): r = 288
-			B(C=72, T=720, D=660): r = 624
-
-			\textbf{Iteration 5}
-			E(C=14, T=48, D=48): r = 14
-			A(C=42, T=330, D=60): r = 70
-			F(C=18, T=4800, D=120): r = 88
-			C(C=6, T=240, D=240): r = 94
-			D(C=132, T=360, D=300): r = 288
-			B(C=72, T=720, D=660): r = 638
-
-			\textbf{Iteration 6}
-			E(C=14, T=48, D=48): r = 14
-			A(C=42, T=330, D=60): r = 70
-			F(C=18, T=4800, D=120): r = 88
-			C(C=6, T=240, D=240): r = 94
-			D(C=132, T=360, D=300): r = 288
-			B(C=72, T=720, D=660): r = 652
+			\textbf{Iteration 3} \newline
+			E(C=14, T=48, D=48): r = 14 \newline
+			A(C=42, T=330, D=60): r = 70 \newline
+			F(C=18, T=4800, D=120): r = 88 \newline
+			C(C=6, T=240, D=240): r = 94 \newline
+			D(C=132, T=360, D=300): r = 288 \newline
+			B(C=72, T=720, D=660): r = 576 \newline
 
 
-			\textbf{Iteration 7}
-			E(C=14, T=48, D=48): r = 14
-			A(C=42, T=330, D=60): r = 70
-			F(C=18, T=4800, D=120): r = 88
-			C(C=6, T=240, D=240): r = 94
-			D(C=132, T=360, D=300): r = 288
-			B(C=72, T=720, D=660): r = 652
+			\textbf{Iteration 4} \newline
+			E(C=14, T=48, D=48): r = 14 \newline
+			A(C=42, T=330, D=60): r = 70 \newline
+			F(C=18, T=4800, D=120): r = 88 \newline
+			C(C=6, T=240, D=240): r = 94 \newline
+			D(C=132, T=360, D=300): r = 288 \newline
+			B(C=72, T=720, D=660): r = 624 \newline
+
+			\textbf{Iteration 5} \newline
+			E(C=14, T=48, D=48): r = 14 \newline
+			A(C=42, T=330, D=60): r = 70 \newline
+			F(C=18, T=4800, D=120): r = 88 \newline
+			C(C=6, T=240, D=240): r = 94 \newline
+			D(C=132, T=360, D=300): r = 288 \newline
+			B(C=72, T=720, D=660): r = 638 \newline
+
+			\textbf{Iteration 6} \newline
+			E(C=14, T=48, D=48): r = 14 \newline
+			A(C=42, T=330, D=60): r = 70 \newline
+			F(C=18, T=4800, D=120): r = 88 \newline
+			C(C=6, T=240, D=240): r = 94 \newline
+			D(C=132, T=360, D=300): r = 288 \newline
+			B(C=72, T=720, D=660): r = 652 \newline
+
+			\textbf{Iteration 7} \newline
+			E(C=14, T=48, D=48): r = 14 \newline
+			A(C=42, T=330, D=60): r = 70 \newline
+			F(C=18, T=4800, D=120): r = 88 \newline
+			C(C=6, T=240, D=240): r = 94 \newline
+			D(C=132, T=360, D=300): r = 288 \newline
+			B(C=72, T=720, D=660): r = 652 \newline
 		
 			The final iteration shows that each task's response time satisfies the condition of being less than or equal to the task period, so the set is schedulable using deadline-monotonic fixed-priority assignment. Task A's response time is higher than its deadline however, so it will not meet its deadline.
 			
 			\subsubsection{(e)}
-			Files are an example of a mutual exclusive resource, as only one task can be accessing a file at any given time to perform read or right operations on it. 
+			Files are an example of a mutual exclusive resource, as only one task can be accessing a file at any given time to perform read or write operations on it. 
 
-\textbf{Priority Inversion}
-An example which exhibits priority inversion can be seen with the Mars Pathfinder. The Pathfinder spacecraft has an information bus which was used to exchange information between the robot's various components. A high priority task ran frequently to manage the data on this bus, and access to the bus was synchronised with a mutex. The Pathfinder had another task for gathering meteorological data, which ran infrequently and had a low priority.  This task would acquire the bus' mutex before writing data to the bus. If an interrupt caused the information bus to be scheduled whilst the meteorologic task held it, the bus management task would pend on the mutex and wait for the meteorologic task to be done.  There was also a task with medium priority that dealt with communications. 
-
-The problem with priority inversion manifested like so. An interrupt would sometimes occur that scheduled the medium priority communications thread to be scheduled during the small moments where the high priority bus thread was blocked waiting on the meteorological data thread. When this happened, the communications task would prevent the meteorological task from running which would in turn prevent the communication task from running, meaning the medium priority task was essentially blocking the high priority task\cite{jones1997really}.
-
-\textbf{Priority Inheritance}
-Priority inheritance can help prevent this. With priority inheritance, tasks that block higher priority tasks will inherit the higher task's priority for the duration of the blocking. Once the task has finished executing and has released the resource it will drop down to its original priority asignment, and allow the high-priority task to use the resource that it has just acquired. For the Pathfinder example, this would mean the meteorologic thread would escalate to the bus management task's priority meaning the communication's task could not acquire the mutex and block the bus management task once the meteorological task had finished executing. 
-
-\textbf{Priority Inheritance Limitations}
-Transitive blocking can occur. This is when tasks all begin blocking eachother and acquire high importance. For example, there are three tasks with high, medium and low priority, and two resources called R1 and R2. The low task takes R1 and the medium task takes R2. If the medium task wants to take R1, it is blocked and the low tas's priority is set to medium. If the high task then wants to take R2, it is blocked and sets the medium task to high priority. The task holding R1 has an unchanged priority here even though it is the reason the original high priority task is being blocked.
-
-Priority inheritance also does not prevent deadlocks, where all tasks aer stuck waiting for other tasks to release resources preventing them from releasing resources that other tasks need and so on.
-
-As well, priority inheritance might prevent priority inversion but it doesn't minimize the time that tasks spend being blocked.
-
-\textbf{An Alternative}
+			\textbf{Priority Inversion}
+			An example which exhibits priority inversion can be seen with the Mars Pathfinder. The Pathfinder spacecraft has an information bus which was used to exchange information between the robot's various components. A high priority task ran frequently to manage the data on this bus, and access to the bus was synchronised with a mutex. The Pathfinder had another task for gathering meteorological data, which ran infrequently and had a low priority.  This task would acquire the bus' mutex before writing data to the bus. If an interrupt caused the information bus to be scheduled whilst the meteorologic task held it, the bus management task would pend on the mutex and wait for the meteorologic task to be done.  There was also a task with medium priority that dealt with communications. 
+			
+			The problem with priority inversion manifested like so. An interrupt would sometimes occur that scheduled the medium priority communications thread to be scheduled during the small moments where the high priority bus thread was blocked waiting on the meteorological data thread. When this happened, the communications task would prevent the meteorological task from running which would in turn prevent the communication task from running, meaning the medium priority task was essentially blocking the high priority task\cite{jones1997really}.
+			\medskip
+			\textbf{Priority Inheritance}
+			Priority inheritance can help prevent this. With priority inheritance, tasks that block higher priority tasks will inherit the higher task's priority for the duration of the blocking. Once the task has finished executing and has released the resource it will drop down to its original priority asignment, and allow the high-priority task to use the resource that it has just acquired. For the Pathfinder example, this would mean the meteorologic thread would escalate to the bus management task's priority meaning the communication's task could not acquire the mutex and block the bus management task once the meteorological task had finished executing. 
+			\medskip
+			\textbf{Priority Inheritance Limitations}
+			Transitive blocking can occur. This is when tasks all begin blocking eachother and acquire high importance. For example, there are three tasks with high, medium and low priority, and two resources called R1 and R2. The low task takes R1 and the medium task takes R2. If the medium task wants to take R1, it is blocked and the low tas's priority is set to medium. If the high task then wants to take R2, it is blocked and sets the medium task to high priority. The task holding R1 has an unchanged priority here even though it is the reason the original high priority task is being blocked.
+			
+			Priority inheritance also does not prevent deadlocks, where all tasks aer stuck waiting for other tasks to release resources preventing them from releasing resources that other tasks need and so on.
+			
+			As well, priority inheritance might prevent priority inversion but it doesn't minimize the time that tasks spend being blocked.
+			\medskip
+			\textbf{An Alternative}
 
 
 		
