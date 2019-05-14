@@ -49,13 +49,22 @@
 			
 			%For the given task set with 6 tasks, this formula equals approximately 0.73, meaning this test is negative. If the necessary schedulability test is positive but the sufficient schedulability test is negative, a better schedulability test is needed. 
 			
+			\subsubsection{(c)}
+			First the WCRT (worst case response time) for the task set must be calculated. This can be achieved via the given formula.
+			\begin{equation*}
+			R\textsuperscript{i} = C\textsuperscript{i} + \sum_{j\inhp(i)}
+			\end{equation*}
 			
+			Where R is response time, C is cpu utilisation, and hp(i) denotes the set of tasks of priority higher than i.
 			
-			\subsubsection{Question c}
-			
+			schedulable, however two tasks will miss their deadline (A and F)
 			
 			
 			\subsubsection{Question d}
+			The same calculations were performed as the ones in (c), but this time the tasks were organised by deadline (lowest to highest) instead of by their period.
+			
+			yes, however task A will miss its deadline
+			
 			\subsubsection{Question e}
 		
 		\subsection{Scheduling with Shared Resources}
@@ -68,7 +77,7 @@
 	
 	\chapter{Reliability}
 		\section{Section 1}
-			\subsection{Question a}
+			\subsection{(a)}
 				\subsubsection{Fail-Operational}
 				Fail-operational is when a system is still capable of full performance in the presence of faults, with no external signs of the fault manifesting. 
 				
@@ -84,20 +93,21 @@
 				Availability = MTBF/(MTBF + MTTR)
 				\end{equation*}
 				
-				Of the different types of fault-tolerance, high-availability is the most appropriate for the car production line. Whilst the operation of the production line is regrettable and will likely result in financial losses and other goals being missed such as a target for the amount of cars manufactured, the potential for injury to personnel is by far the most severe consequence of system failure. The potential for harm is why continued system operation shouldn't be implemented in the event of a fault, but high-availability will place emphasis on getting the system back up and running so cars can be properly created again. This will help minimize the impact on the system's mission by reducing its downtime.
+				Out of the different types of fault-tolerance, high-availability would be the most appropriate for the car assembly line. Whilst this will result in a lower amount of continuous operation time, as long as the mean operation is as high as possible (which high-availability aims to achieve) production goals should still be satisfied and the production line's mission shouldn't be impeded. High-availability also allows for shutdowns when faults are encountered, which is an imperative feature of the assembly line's fault tolerance given the potential for harm to come to personnel.
 			
-			\subsection{Question b}
+			\subsection{(b)}
 				\subsubsection{Potential Risks}
 				The nature of the car assembly line means any single failure will cause the entire system to fail, so in terms of the network only a single connected node in the distributed system needs to experience a problem for the entire system to stop working. 
 				
 				Timing will also be essential within the assembly line to ensure the robotic tools perform their jobs properly, so there is a risk of performance overhead negatively impacting the system too. Networked processors that are in close proximity will communicate incredibly quickly, but processors that are further away from the network will take longer to communicate and this will need to be accounted for otherwise tools may not behave as expected and, should any issues occur, the entire system will fail as previously discussed. In a similar vain, timing will need to be considered to ensure that all operations across the network are in synchronisation with each other. Messages arriving on time is a good start, but this doesn't guarantee that all of the production line robotics are cooperating as expected.
 				
+				There is also the possibility for the system's data to encounter issues, such as addressing errors where nodes send or receive messages that are intended for a different node. The data itself could also be corrupted during its transmission.
+				
 				\subsubsection{Architecture Recommendation}
-				
-				
-			
+						
 			
 			\subsection{Question c}
+			One hardware risk with the production line components is the contents of the ROM becoming corrupted by electronic pulses or radiation.
 
 
 	\bibliographystyle{plainnat}
