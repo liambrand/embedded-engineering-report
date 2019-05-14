@@ -27,20 +27,27 @@
 			Where N is the number of tasks, C is the task's worst-case execution time and T is the task's period. The given task set's utilization is approximately 0.99.
 			
 			\subsubsection{(b)}
-			First a utilisation-based schedulability test can be used to determine whether or not the task set is schedulable using rate-monotonic priority assignment.
-			
-			The necessary test is the following. If this test is negative, the task set is definitely not schedulable.
-			\begin{equation*}
-			U \leq 1
-			\end{equation*}
-			
-			The test is positive, so the sufficient schedulability test can be carried about. The sufficient test is the following, where \textit{n} is the number of tasks.
+			A set of given tasks can be proved to be or not be schedulable using rate-monotonic priority assignment by using the utilisation-bound theorem. If the test is positive and the CPU utilisation is below the given bound, the set is schedulable.
 			
 			\begin{equation*}
-			U \leq n(2^\frac{1}{n} - 1)
+			U = U = \sum_{i=1}^{N} \frac{C\textsubscript{i}}{T\textsubscript{i}} \leq n(2^\frac{1}{n} - 1)
 			\end{equation*}
+			As previously discussed, the set's CPU utilisation is around 0.99. The given task set has 6 tasks, so the utilisation bound is around 0.73. This test is therefore false, meaning the task set is not schedulable using rate-monotonic priority assignment.
 			
-			For the given task set with 6 tasks, this formula equals approximately 0.73, meaning this test is negative. If the necessary schedulability test is positive but the sufficient schedulability test is negative, a better schedulability test is needed. 
+			%First a utilisation-based schedulability test can be used to determine whether or not the task set is schedulable using rate-monotonic priority assignment.
+			
+			%The necessary test is the following. If this test is negative, the task set is definitely not schedulable.
+			%\begin{equation*}
+			%U \leq 1
+			%\end{equation*}
+			
+			%The test is positive, so the sufficient schedulability test can be carried about. The sufficient test is the following, where \textit{n} is the number of tasks.
+			
+			%\begin{equation*}
+			%U \leq n(2^\frac{1}{n} - 1)
+			%\end{equation*}
+			
+			%For the given task set with 6 tasks, this formula equals approximately 0.73, meaning this test is negative. If the necessary schedulability test is positive but the sufficient schedulability test is negative, a better schedulability test is needed. 
 			
 			
 			
