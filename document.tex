@@ -66,21 +66,18 @@
 				Fail-operational is when a system is still capable of full performance in the presence of faults, with no external signs of the fault manifesting. 
 				
 				\subsubsection{Fail-Active}
-				Fail-active systems can continue their operation when a fault is encountered, but will do so at a reduced performance.
+				Fail-active systems can continue their operation when a fault is encountered, but will do so at a reduced performance. This is the least applicable system to the production line, as a reduced performance will result in a lower production quality and the possibiliy of the system's mission goals not being met, but also the possibility of personnel being injured. 
 				
 				\subsubsection{Fail-Safe}
-				Fail-safe systems will cease operation upon encountering a fault, and enter a safe mode.
+				Fail-safe systems will cease operation upon encountering a fault, and enter a safe mode. For the car production line, this will completely minimize risk to human life but production will suffer the most as each encountered fault will result in the system entering its safe mode. Restarting the system and bringing it back to full operational capacity could take a while, and this will result in a potential failure of the system's mission objectives.
 				
 				\subsubsection{High Availability}
-				High availability systems cease operation upon encountering a fault, but must be returned to operation as quick as possible, this can involve hot swapping system units whilst the system is operating.
+				High availability systems cease operation upon encountering a fault, but must be returned to operation as quick as possible, this can involve hot swapping system units whilst the system is operating. These systems allow for failures, and aim to achieve a high mean time of operation rather than a long continuous time of operation. The goal here is not to avoid faults, but to minimize time spent rectifying them so that the overall system operation time is as high as possible\cite{gray1991high}. The availability of these system can be measured by the following, where MTBF is mean time between failures and MTTR is mean time to repair.
+				\begin{equation*}
+				Availability = MTBF/(MTBF + MTTR)
+				\end{equation*}
 				
 				Of the different types of fault-tolerance, high-availability is the most appropriate for the car production line. Whilst the operation of the production line is regrettable and will likely result in financial losses and other goals being missed such as a target for the amount of cars manufactured, the potential for injury to personnel is by far the most severe consequence of system failure. The potential for harm is why continued system operation shouldn't be implemented in the event of a fault, but high-availability will place emphasis on getting the system back up and running so cars can be properly created again. This will help minimize the impact on the system's mission by reducing its downtime.
-				%\subsubsection{Fault Prevention}
-				%\subsubsection{Software Fault Tolerance}
-				%\subsubsection{Hardware Fault Tolerance}
-				
-				
-				
 			
 			\subsection{Question b}
 				\subsubsection{Potential Risks}
