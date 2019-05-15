@@ -24,7 +24,7 @@
 			\end{equation*}
 			%equation
 			
-			Where N is the number of tasks, C is the task's worst-case execution time and T is the task's period. The given task set's utilization is approximately 0.99.
+			Where N is the number of tasks, C is the task's execution time and T is the task's period. The given task set's utilization is approximately 0.99.
 			
 			\subsubsection{(b)}
 			A set of given tasks can be proved to be or not be schedulable using rate-monotonic priority assignment by using the utilisation-bound theorem. If the test is positive and the CPU utilisation is below the given bound, the set is schedulable.
@@ -206,7 +206,11 @@
 				\subsubsection{Architecture Recommendation}
 						
 			
-			\subsection{Question c}
+			\subsection{(c)}
+			Power-on risks with the production line's hardware will need to be considered. The component's ROM contents could become corrupted by electromagnetic pulses, or the component's flash memory could be reprogrammed and cause issues (e.g. maybe parts of the memory are being incorrectly erased). These issues can be solved during the component's power-up phase by having the component run checks to ensure the validity of its state.
+			
+			Run-time issues are also a possibility. Like with the start up problem, electrical noise or a power supply fluctuation could cause the program the component is running to become corrupted. Check summing could be used here, where the component's program checks its validity against a checksum to determine if the program is in a proper state. Program copies could be used that have also been check summed, with components running the check summed copies should the program running be found to be corrupt.
+			
 			One hardware risk with the production line components is the contents of the ROM becoming corrupted by electronic pulses or radiation.
 
 
