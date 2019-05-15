@@ -183,22 +183,26 @@
 			
 			\subsubsection{(e)}
 			Files are an example of a mutual exclusive resource, as only one task can be accessing a file at any given time to perform read or write operations on it. 
+			\medskip
 
-			\textbf{Priority Inversion}
+			\textbf{Priority Inversion}\newline
 			An example which exhibits priority inversion can be seen with the Mars Pathfinder. The Pathfinder spacecraft has an information bus which was used to exchange information between the robot's various components. A high priority task ran frequently to manage the data on this bus, and access to the bus was synchronised with a mutex. The Pathfinder had another task for gathering meteorological data, which ran infrequently and had a low priority.  This task would acquire the bus' mutex before writing data to the bus. If an interrupt caused the information bus to be scheduled whilst the meteorologic task held it, the bus management task would pend on the mutex and wait for the meteorologic task to be done.  There was also a task with medium priority that dealt with communications. 
 			
 			The problem with priority inversion manifested like so. An interrupt would sometimes occur that scheduled the medium priority communications thread to be scheduled during the small moments where the high priority bus thread was blocked waiting on the meteorological data thread. When this happened, the communications task would prevent the meteorological task from running which would in turn prevent the communication task from running, meaning the medium priority task was essentially blocking the high priority task\cite{jones1997really}.
 			\medskip
-			\textbf{Priority Inheritance}
+			
+			\textbf{Priority Inheritance}\newline
 			Priority inheritance can help prevent this. With priority inheritance, tasks that block higher priority tasks will inherit the higher task's priority for the duration of the blocking. Once the task has finished executing and has released the resource it will drop down to its original priority asignment, and allow the high-priority task to use the resource that it has just acquired. For the Pathfinder example, this would mean the meteorologic thread would escalate to the bus management task's priority meaning the communication's task could not acquire the mutex and block the bus management task once the meteorological task had finished executing. 
 			\medskip
-			\textbf{Priority Inheritance Limitations}
+			
+			\textbf{Priority Inheritance Limitations}\newline
 			Transitive blocking can occur. This is when tasks all begin blocking eachother and acquire high importance. For example, there are three tasks with high, medium and low priority, and two resources called R1 and R2. The low task takes R1 and the medium task takes R2. If the medium task wants to take R1, it is blocked and the low tas's priority is set to medium. If the high task then wants to take R2, it is blocked and sets the medium task to high priority. The task holding R1 has an unchanged priority here even though it is the reason the original high priority task is being blocked.
 			
 			Priority inheritance also does not prevent deadlocks, where all tasks aer stuck waiting for other tasks to release resources preventing them from releasing resources that other tasks need and so on.
 			
 			As well, priority inheritance might prevent priority inversion but it doesn't minimize the time that tasks spend being blocked.
 			\medskip
+			
 			\textbf{An Alternative}
 
 
@@ -224,13 +228,13 @@
 		\section{Section 1}
 			\subsection{(a)}
 				\subsubsection{Fail-Operational}
-				Fail-operational is when a system is still capable of full performance in the presence of faults, with no external signs of the fault manifesting. 
+				Fail-operational is when a system is still capable of full performance in the presence of faults, with no external signs of the fault manifesting. For the car production line, this would mean a system fault would still result in cars being produced at a good efficiency, meaning the system's objectives to produce cars won't be impeded and as such neither will car production. The encountered fault might cause an issue where damage is done to cars however, so whilst the production might not fail the actual quality of the cars produced would. As well, there would be no guarantee for the system to be entirely safe during its operation here, so there would be a risk to personnel safety.
 				
 				\subsubsection{Fail-Active}
-				Fail-active systems can continue their operation when a fault is encountered, but will do so at a reduced performance. This is the least applicable system to the production line, as a reduced performance will result in a lower production quality and the possibiliy of the system's mission goals not being met, but also the possibility of personnel being injured. 
+				Fail-active systems can continue their operation when a fault is encountered, but will do so at a reduced performance. This is 'graceful degradation' where as more parts of the system experience faults the system can still continue its operation (up until a certain point). With regards to the production line, this will likely involve car production continuing at a reduced rate until the fault can be corrected. This won't always be the case however, as the fault may lie in a specific part of the car assembly. If this was the case, reduced system performance isn't tolerable as a key part of the manufacturing process won't be completed, so the cars being produced here won't be of any use.
 				
 				\subsubsection{Fail-Safe}
-				Fail-safe systems will cease operation upon encountering a fault, and enter a safe mode. For the car production line, this will completely minimize risk to human life but production will suffer the most as each encountered fault will result in the system entering its safe mode. Restarting the system and bringing it back to full operational capacity could take a while, and this will result in a potential failure of the system's mission objectives.
+				Fail-safe systems will cease operation upon encountering a fault, and enter a safe mode. For example, elevators are often equipped with breaks that will apply should the cable holding the elevator snap. For the car production line, this will mean the entire system ceases operation in the event of a fault. This will completely minimize risk to human life but production will suffer the most as each encountered fault will result in the system entering its safe mode. Restarting the system and bringing it back to full operational capacity could take a while, and this will result in a potential failure of the system's mission objectives.
 				
 				\subsubsection{High Availability}
 				High availability systems cease operation upon encountering a fault, but must be returned to operation as quick as possible, this can involve hot swapping system units whilst the system is operating. These systems allow for failures, and aim to achieve a high mean time of operation rather than a long continuous time of operation. The goal here is not to avoid faults, but to minimize time spent rectifying them so that the overall system operation time is as high as possible\cite{gray1991high}. The availability of these system can be measured by the following, where MTBF is mean time between failures and MTTR is mean time to repair.
@@ -238,7 +242,7 @@
 				Availability = MTBF/(MTBF + MTTR)
 				\end{equation*}
 				
-				Out of the different types of fault-tolerance, high-availability would be the most appropriate for the car assembly line. Whilst this will result in a lower amount of continuous operation time, as long as the mean operation is as high as possible (which high-availability aims to achieve) production goals should still be satisfied and the production line's mission shouldn't be impeded. High-availability also allows for shutdowns when faults are encountered, which is an imperative feature of the assembly line's fault tolerance given the potential for harm to come to personnel.
+				Out of the different types of fault-tolerance, high-availability would be the most appropriate for the car assembly line. Whilst this will result in a lower amount of continuous operation time, as long as the mean operation is as high as possible (which high-availability aims to achieve) production goals should still be satisfied and the production line's mission shouldn't be impeded. High-availability also allows for shutdowns when faults are encountered, which is an imperative feature of the assembly line's fault tolerance given the potential for harm to personnel.
 			
 			\subsection{(b)}
 				\subsubsection{Potential Risks}
