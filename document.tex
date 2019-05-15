@@ -177,7 +177,11 @@
 		%For both systems, the CAN controller was initialised with a baud rate of 125000.
 			
 			\subsection{Display}
-			For the Display system, two threads were created, assigned priorities, and then started with one thread running the Display's Display task and the other thread running the Display's Request task. Of the two threads one had to be assigned a slightly higher priority, the request thread was chosen for this as it was deemed important that it was regularly able to request information from the EngineMonitor, more so than the ability to display it. The request task ran at intervals of 500ms, and it would write a transmit a simple CAN message to the connected board running the EngineMonitor system each time it ran.
+			For the Display system, two threads are used. These threads are assigned priorities and tasks for them to run, with one thread running the request task and the other running the display task. Of the two threads one of them had to have a slightly priority. The request thread was chosen for this as it was deemed important that it was regularly able to request information from the EngineMonitor, more so than the ability to display it. 
+			
+			The request thread uses a wait command to run at intervals of 500ms, and transmits a simple CAN message requesting a temperature reading to the EngineMonitor each time it runs. The message is a canMessage\_t struct, a simple structure containing variables like the message's ID, its length and some data.
+			
+			The full request task can be seen below.
 			
 \begin{lstlisting}
 static void requestTask(void) {
@@ -189,11 +193,10 @@ static void requestTask(void) {
 		wait_ms(500);
 	}
 }
-\end{lstlisting}
-			
+\end{lstlisting}			
 			One aspect in particular that took some planning was allowing the display task to be event driven. Rather than running at an interval it had to execute and display a value to the terminal whenever it was received a temperature reading.
 			
-			To achieve this a semaphore was made, with the plan being that the task would pend on a semaphore that was released by the arrival of a temperature message. To enable the semaphore's release on the arrival of a temperature message, an interrupt handler was created.
+			To achieve this a combination of an interrupt handler and a semaphore is used. The display task pends on a semaphore that is released by a method that runs when a CAN message is received.
 			
 \begin{lstlisting}
 /* A simple interrupt handler for CAN message reception */
@@ -202,8 +205,8 @@ void canHandler(void) {
 	rxDone.release();
 }
 \end{lstlisting}
-			
-			The handler transferred the received CAN rxFrame to the rxMessage variable, which was a canMessage\_t data structure. It then released the rxDone semaphore that the display task would pend on. Following this, code was added to the display task. First it would enable receive interrupts on the CAN controller, and specify the previously made canHandler method as the interrupt handler. Then, it would pend on the semaphore that the handler released. Once this semaphore was released, it would print the value from the CAN message that the handler puts into the rxMessage variable. The full method can be seen below.
+
+			This interrupt handler transfers the most recently received CAN rxFrame to the rxMsg variable, and then releases the semaphore that the display task is pending on. Once the semaphore is released, the rest of the display code runs where it prints the data from the received message to a terminal. After the wait period has elapsed, it begins and pends on the semaphore once again. The full display task code can be seen below.
 			
 \begin{lstlisting}
 /* Pend on a semaphore released by an RX Interrupt
@@ -218,6 +221,9 @@ static void displayTask(void) {
 	}
 }
 \end{lstlisting}
+
+			\subsection{EngineMonitor}
+			A time triggered scheduler was used to run the EngineMonitor's tachoT task. The scheduler was relatively simple, it used a task table containing an array of task control blocks. Each block had a pointer to the task, a delay, and a period. For tachoT, the 
 			
 		
 		
