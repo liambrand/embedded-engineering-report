@@ -218,7 +218,6 @@ static void displayTask(void) {
 	while(true) {
 		rxDone.wait();
 		pc.printf("Temperature: 0x%08lx\n", rxMsg.dataB);
-		wait_ms(500);
 	}
 }
 \end{lstlisting}
@@ -263,6 +262,12 @@ if(id == 0x24){
 \end{lstlisting} 
 
 		\subsection{System Evaluation}
+		The system's structure and timing requirements have been fulfilled. Both the display and engine monitor systems posses the correct structure, in that they have appropriate tasks that perform the desired functions, and the tasks in both run in their respectively specified event driven and time-triggered ways. The tasks also run at their specified time periods, with the request task running ever 500ms and the tacho task running every 20ms. The temp task only runs in response to a request, and the request it receives is checked before a response is sent rather than simply sending a request as soon as any message is received.
+		\medskip
+		
+		The system has no functionality in place to deal with a message that hasn't successfully been sent however. The canWrite method returns a boolean value depending on whether or not the message has been successfully sent (true if it has, false if it hasn't), and this value is never used for anything. The system could be improved by checking this value once the canRead method is called, and if it returns false it could begin a retry loop where it attempts to send the message again. This loop would continue until the next time the task this is in has to run (e.g. until the next new request message needs to be sent from the display), and should the message never be sent this could flag up as a missed message. Repeated missed messages could be flagged up as a more serious problem. As of right now, the system is massively dependent on all messages successfully sending, with no warning of requests or temperature acknowledgements that haven't been able to be sent.
+		
+		
 			
 			
 			
