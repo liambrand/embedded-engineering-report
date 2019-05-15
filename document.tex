@@ -175,11 +175,11 @@
 	\chapter{A Distributed Real-time System}
 		\section{Question 1}
 		%For both systems, the CAN controller was initialised with a baud rate of 125000.
-		
+			
 			\subsection{Display}
 			For the Display system, two threads were created, assigned priorities, and then started with one thread running the Display's Display task and the other thread running the Display's Request task. Of the two threads one had to be assigned a slightly higher priority, the request thread was chosen for this as it was deemed important that it was regularly able to request information from the EngineMonitor, more so than the ability to display it. The request task ran at intervals of 500ms, and it would write a transmit a simple CAN message to the connected board running the EngineMonitor system each time it ran.
 			
-			\begin{lstlisting}
+\begin{lstlisting}
 static void requestTask(void) {
 	static canMessage_t requestMsg = {0x23, 8, 0, 0};
 	bool txOk;
@@ -189,9 +189,9 @@ static void requestTask(void) {
 		wait_ms(500);
 	}
 }
-			\end{lstlisting}
+\end{lstlisting}
 			
-			One aspect that particularly took some planning was allowing the display task to be event driven. Rather than running at an interval it had to execute and display a value to the terminal whenever it was received by the CAN controller.
+			One aspect in particular that took some planning was allowing the display task to be event driven. Rather than running at an interval it had to execute and display a value to the terminal whenever it was received a temperature reading.
 			
 			To achieve this a semaphore was made, with the plan being that the task would pend on a semaphore that was released by the arrival of a temperature message. To enable the semaphore's release on the arrival of a temperature message, an interrupt handler was created.
 			
@@ -203,25 +203,22 @@ void canHandler(void) {
 }
 \end{lstlisting}
 			
-			Following this the display task was filled in. First it would enable receive interrupts on the CAN controller.
+			The handler transferred the received CAN rxFrame to the rxMessage variable, which was a canMessage\_t data structure. It then released the rxDone semaphore that the display task would pend on. Following this, code was added to the display task. First it would enable receive interrupts on the CAN controller, and specify the previously made canHandler method as the interrupt handler. Then, it would pend on the semaphore that the handler released. Once this semaphore was released, it would print the value from the CAN message that the handler puts into the rxMessage variable. The full method can be seen below.
 			
-			To enable the semaphore's release on the arrival of a temperature message, receive interrupts on the CAN controller were enabled.
 \begin{lstlisting}
-canRxInterrupt(canHandler);
+/* Pend on a semaphore released by an RX Interrupt
+* When released, display the recieved temperature reading to a terminal
+*/
+static void displayTask(void) {
+	canRxInterrupt(canHandler);
+	while(true) {
+		rxDone.wait();
+		pc.printf("Temperature: 0x%08lx\n", rxMsg.dataB);
+		wait_ms(500);
+	}
+}
 \end{lstlisting}
 			
-			The canHandler 
-			 and the following function was supplied to be the interrupt handler.
-			
-
-			
-			The display task was configured to be event driven, and triggered by the arrival of a temperature reading. Once a reading had been transmitted, the task would run and output it to a terminal. To achieve this, a semaphore was created for the task to pend on.
-			\begin{lstlisting}
-Semaphore rxDone(1);
-			\end{lstlisting}
-			
-			
-			The display task was configured to be event driven. This was done by enabling receive interrupts on the CAN controller, with a function (supplied as a parameter) being used for the interrupt handler. The interrupt 
 		
 		
 		\section{Question 2}
