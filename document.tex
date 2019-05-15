@@ -223,7 +223,9 @@ static void displayTask(void) {
 \end{lstlisting}
 
 			\subsection{EngineMonitor}
-			A time triggered scheduler was used to run the EngineMonitor's tachoT task. The scheduler was relatively simple, it used a task table containing an array of task control blocks. Each block had a pointer to the task, a delay, and a period. For tachoT, the 
+			A time triggered scheduler is used to run the EngineMonitor tasks. 
+			
+			The scheduler is relatively simple, it uses a task table containing an array of task control blocks. Each block has a pointer to the task, a delay, and a period. The scheduler initializes by iterating through the task table and setting all values to zero, and all task pointer to NULL. 
 			
 		
 		
