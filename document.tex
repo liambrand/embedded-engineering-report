@@ -6,6 +6,7 @@
 \usepackage{listings}
 
 
+
 % Title Page
 \title{CM0605 - Embedded Systems Engineering}
 \author{Liam Brand}
@@ -225,7 +226,15 @@ static void displayTask(void) {
 			\subsection{EngineMonitor}
 			A time triggered scheduler is used to run the EngineMonitor tasks. 
 			
-			The scheduler is relatively simple, it uses a task table containing an array of task control blocks. Each block has a pointer to the task, a delay, and a period. The scheduler initializes by iterating through the task table and setting all values to zero, and all task pointer to NULL. 
+			The scheduler is relatively simple, it uses a task table containing an array of task control blocks. Each block has a pointer to the task, a delay, and a period. The scheduler initializes by iterating through the task table and setting all values to zero, and all task pointer to NULL. Tasks are added to the scheduler by through the schAddTask method, which takes parameters corresponding to the variables in the task control blocks. The scheduler is then started, which begins a simple timer that starts ticking. The scheduler is then dispatched each tick, running tasks that delays have reached zero and resetting the delay's to the task's period. The code in the EngineMonitor that intialises the timer, adds the temp and tacho tasks, then starts and repeatedly dispatches the timer can be seen below.
+			
+\begin{lstlisting}
+schInit();
+schAddTask(tachoT, 0, 20);
+schAddTask(ackT, 0, 500);
+			
+schStart();
+\end{lstlisting}
 			
 		
 		
