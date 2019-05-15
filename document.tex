@@ -224,17 +224,47 @@ static void displayTask(void) {
 \end{lstlisting}
 
 			\subsection{EngineMonitor}
-			A time triggered scheduler is used to run the EngineMonitor tasks. 
+			The EngineMonitor consists of two tasks. A tacho task which simulates monitoring the engine's rotation speed, and a temperature task which sends a response to the Display's request for a temperature reading. A time triggered scheduler is used to run the EngineMonitor tasks. 
 			
-			The scheduler is relatively simple, it uses a task table containing an array of task control blocks. Each block has a pointer to the task, a delay, and a period. The scheduler initializes by iterating through the task table and setting all values to zero, and all task pointer to NULL. Tasks are added to the scheduler by through the schAddTask method, which takes parameters corresponding to the variables in the task control blocks. The scheduler is then started, which begins a simple timer that starts ticking. The scheduler is then dispatched each tick, running tasks that delays have reached zero and resetting the delay's to the task's period. The code in the EngineMonitor that intialises the timer, adds the temp and tacho tasks, then starts and repeatedly dispatches the timer can be seen below.
+			The scheduler is relatively simple, it uses a task table containing an array of task control blocks. Each block has a pointer to the task, a delay, and a period. The scheduler initializes by iterating through the task table and setting all values to zero, and all task pointer to NULL. Tasks are added to the scheduler by through the schAddTask method, which takes parameters corresponding to the variables in the task control blocks. The scheduler is then started, which begins a simple timer that starts ticking. The scheduler is then dispatched each tick, running tasks that delays have reached zero and resetting the delay's to the task's period. 
+			
+			The code in the EngineMonitor's main method that intialises the timer, adds the temperature and tacho tasks, then starts and repeatedly dispatches the timer can be seen below.
 			
 \begin{lstlisting}
 schInit();
 schAddTask(tachoT, 0, 20);
-schAddTask(ackT, 0, 500);
+schAddTask(tempT, 0, 500);
 			
 schStart();
+
+while (true) {
+	schDispatch();
+}
 \end{lstlisting}
+
+			The tacho task simulates measuring the engine's rotation speed by reading some values from the K64F's accelerometer, and assigning these values to a dummy variable which isn't used anywhere else in the program.
+			
+			When the temperature task runs, it waits on the canReady method returning true. canReady is a simple method that returns true if there is data ready to be read from the CAN port. If the method returns true, the task uses canRead to read the message into a canMessage\_t variable.
+\begin{lstlisting}
+if(canReady()){
+	canRead(&canData);
+	id = canData.id;
+}
+\end{lstlisting}
+
+			Following this, the message's id is checked. Rather than simply responding once any message is received, an id of 0x24 is used for all request messages, and should the received message match this id it will be acknowledged as originating from the display. Once this acknowledgment has been done, values are collected from the accelerometer to simulate taking a temperature reading, they are put into a can message, and the message is then written to the CAN controller.	
+\begin{lstlisting}
+if(id == 0x24){
+	canMessage_t txMsg = {0x23, 8, acc.getY(raY), acc.getY(raY)};
+	bool txOk;
+	pc.printf("ID 0x%1x", canData.id);
+	txOk = canWrite(&txMsg);
+}
+\end{lstlisting} 
+
+		\subsection{System Evaluation}
+			
+			
 			
 		
 		
