@@ -300,12 +300,16 @@ if(id == 0x24){
 		The system has no functionality in place to deal with a message that hasn't successfully been sent however. The canWrite method returns a boolean value depending on whether or not the message has been successfully sent (true if it has, false if it hasn't), and this value is never used for anything. The system could be improved by checking this value once the canRead method is called, and if it returns false it could begin a retry loop where it attempts to send the message again. This loop would continue until the next time the task this is in has to run (e.g. until the next new request message needs to be sent from the display), and should the message never be sent this could flag up as a missed message. Repeated missed messages could be flagged up as a more serious problem. As of right now, the system is massively dependent on all messages successfully sending, with no warning of requests or temperature acknowledgements that haven't been able to be sent.
 		
 		The display system also performs all display functionality in the interrupt service routine. Whilst this doesn't seem to have any adverse effects yet, should the system expand and begin doing something more elaborate with received temperature data such as printing to an attached LCD, doing everything in the ISR might start to impede performance. To help with this, an EventQueue could be used. The Mbed RTOS features an EventQueue API\cite{mbedoseventqueue} that can be used to store events and defer the execution of the event code for a different context. For the display's ISR, the EventQueue could store interrupts containing temperature values and execute them outside of the interrupt context to prevent the interrupt blocking other tasks for too long.
-			
-			
-			
-		
 		
 		\section{Question 2}
+		The formula for calculating the CAN message response time is the following.
+		
+		\begin{equation}
+		R\textsubscript{m} = J\textsubscript{m} + w\textsubscript{m} + C\textsubscript{m}
+		\end{equation}
+		Where J is queuing jitter, w is worst-case queuing delay and C is worst-case message transmission time.
+		
+		
 		\section{Question 3}
 		\section{Question 4}
 		
