@@ -518,8 +518,11 @@ if(id == 0x24){
 				The Simulation class was invoked from the command line with 100 and 5 for the nominal and noise values respectively. The program was modified to take two additional parameters, one for the amount of regular sensors and one for the amount of faulty sensors, and the appropriate number of these sensors was input depending on which of the two tests were being performed. Faulty sensors were initialised with with a fault interval of 10000 milliseconds and a fault value of 200. Code can be viewed at Appendix \ref{sensorsimcode}.
 				
 			\subsection{(c)}
+				\subsubsection{Voter System}
+				A voter implementation was attempted but ultimately failed, due to the occassional occurrence of an out of bounds error. It can be viewed in Appendix \ref{voter}. The logic behind it involves the use of a checker function, rather than acquiring an average of readings, each reading in the sensor array would be collected and sent to the checker. The checker would iterate through the list, taking each reading and removing it. It would average all other readings that were taken, and see if the difference between the reading in question and the average of the other readings exceeded twice the sensor noise value. If it did, its location within the array would be flagged. It would then be purged from the array, and the readings minus the value identified as erroneous would be returned where the program would continue as normal.
+			
 				\subsubsection{Evaluation}
-				As can be seen from the results, the standard deviation with a majority of faulty sensors still manages to remain much lower than the standard deviation of a single faulty sensor. The average value approach's general lower deviation also shows that the impact of noise on the sensor readings has been reduced somewhat as well.
+				As can be seen from the results of the solo sensor and the sensor array tests, the standard deviation with a majority of faulty sensors manages to remain much lower than the standard deviation of a single faulty sensor. The average value approach's general lower deviation also shows that the impact of noise on the sensor readings has been reduced somewhat as well.
 				
 				A voter system was unable to be implemented, so the exact figures cannot be reviewed. The theory behind is is sound though, as the program that simply uses an array still has relatively high standard deviation, likely caused from the erroneous readings being taken into the average. Should a voter system be created with a majority of faulty sensors however, the faulty sensors would likely win the vote and be taken as the true average. This is because, should the faulty sensors give an erroneous reading at the same time, the regular sensor that has not given an erroneous reading will actually appear to be the fault from the voter's perspective as it won't be in line with the majority average. In a situation where there is a high amount of unstable sensors, a simple average still suffers from noise and erroneous values but ultimately seems to cope better.
 			
@@ -532,6 +535,9 @@ if(id == 0x24){
 	\chapter{SensorSim Array}
 	\label{sensorsimcode}
 	\lstinputlisting[caption=Simulation.java, language=java, showstringspaces=false]{arraySim.java}
+	\chapter{Voter Function Attempt}
+	\label{voter}
+	\lstinputlisting[caption=voter.java, language=java, showstringspaces=false]{voter.java}
 	\end{appendices}
 
 \end{document}          
