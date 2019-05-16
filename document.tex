@@ -393,17 +393,30 @@ if(id == 0x24){
 		The message's worst-case transmission time can be calculated using \ref{worstcasetransmission}.
 		\begin{equation}
 		\label{worstcasetransmission}
-		C\textsubscript{m} = (g + 8s\textsubscript{m} + 13 + \lfloor \frac{g + 8s\textsubscript{m} - 1}{4} \rfloor ) \textsubscript{$\tau bit$}
+		C\textsubscript{m} = (g + 8s\textsubscript{m} + 13 + \lfloor \frac{g + 8s\textsubscript{m} - 1}{4} \rfloor ) \tau bit
 		\end{equation}
 		
 		Where g is 34 for a standard CAN frame, s\textsubscript{m} is the number of data bytes in the message, and \textsubscript{$\tau bit$} is the transmission time for 1 bit. This formula is simplified to \ref{worstcasesimplified} for 11 bit identifiers, which is what the CAN devices being employed here use.
 		
 		\begin{equation}
 		\label{worstcasesimplified}
-		C\textsubscript{m} = (55 + 10s\textsubscript{m})\textsubscript{$\tau bit$}
+		C\textsubscript{m} = (55 + 10s\textsubscript{m})\tau bit
 		\end{equation}
 		
+		The CAN messages being sent in the system are 8 bytes long, and the controllers use a baud rate of 125000 meaning they send 125000 bits in one second. From this, 1/125000 can be used to determine a single bit is transmitted in 0.000008 seconds, which is 8 microseconds. The formula in \ref{worstcasesimplified} can now incorporate these values.
+		\begin{equation}
+		\label{worstcasesimplifiedrealnumbers}
+		C\textsubscript{m} = (55 + 80)8 = 1080
+		\end{equation}
+		\medskip
+		
+		Now the worst-case queuing delay needs to be calculated. 
+		
 		\section{Question 4}
+		Predictability in terms of an embedded control system concerns prior knowledge of a program's behaviour. Henzinger\cite{henzinger2008two} defines predictability for embedded software design as a number of different factors. These are the program's functional properties (e.g. what output does the program compute?), its reaction properties (e.g. when does the program provide the output?) and the program's execution properties (e.g. what resources are consumed to provide this output?). Lee\cite{Lee:EECS-2009-30} gives a similar explanation, in that predictable behavior is program behavior that can be determined in finite time through analysis of the program's design. Given information about the program's design, its behavior should be able to be inferred depending on what inputs the program is given.
+		\medskip
+		
+		
 		
 	
 	
