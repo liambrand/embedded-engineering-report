@@ -44,6 +44,7 @@
 
 \begin{document}
 \maketitle
+\tableofcontents
 
 	\chapter{Real Time Scheduling}
 		\subsection{Basic Scheduling Analysis}
@@ -303,7 +304,7 @@ if(id == 0x24){
 		
 		\section{Question 2}
 			\subsection{Measurement Procedure}
-			The FRDM-K64F features programmable interval timer chips which can be used to measure the execution time of code. By starting and stopping a PIT and retrieving the elapsed cycles, the amount of time that has elapsed during the execution of code can be measured. This is how the computation times of the temp and tacho tasks were performed. 
+			The FRDM-K64F features programmable interval timer chips, which have been employed here to measure the execution time of code. By starting and stopping a PIT and retrieving the elapsed cycles, the amount of time that has elapsed during the execution of code can be measured. This is how the computation times of the temp and tacho tasks were performed. 
 			\medskip
 			
 			Before measurement, the counters were started and then instantly stopped. This was done to determine the amount of clock cycles it took to begin and end the counter, this could be subtracted from any measurements to gain a more accurate reading. Once this was done and saved as an entropy value, the PIT was started before the execution of a task in question and stopped after its code had finished executing. The entropy was then subtracted from this measurement. These measurements were taken over the course of a few minutes of the program running, and and an average, best, and worst computation time were recorded over the course of around 500 individual readings. The below code snippet shows this process being used to measure the tacho task.
@@ -326,6 +327,7 @@ if(id == 0x24){
 			
 			\subsection{Measurement Quality}
 			The clock cycle measurements here should be fairly high in precision, as an average will help factor out noise from other readings and the time triggered nature of the engine monitor means that any interrupts will happen on a regular enough basis to not cause sporadically high or low readings.
+			\medskip
 			
 			% is this right?
 			In terms of accuracy, the removal of the entropy should help somewhat. The timer interrupts will affect the readings here though. The temperature task runs at a period of 500, and the tacho task runs at a period of 25. This means that the tacho task should run around 25 times between each run of the temperature task, and these executions will affect the measurement of the temperature task's execution as the tacho task will be generating interrupts and blocking the task. This will be less of a problem for the tacho task with how frequently it runs, whilst there will be occassions where the interval is close and the tacho task is blocked by the temperature task, this will be infrequent enough for the average reading to reduce its impact. 
@@ -369,9 +371,10 @@ if(id == 0x24){
 		
 			The worst-case execution time would be achieved with the arrival of a request right as the temperature task has finished executing and just before the tacho task begins its execution. For the request to be read here, the tacho task would need to complete its execution, the interval between temperature task executions would need to be waited for, and then the temperature task would need to be execute. We can find this by adding the worst measurements from both the temperature and tacho task, which comes to around 210.6 microseconds.
 			
+			\subsection{Time-Triggered and RTOS - Response Times}
+			Time-triggered schedulers can have a negative effect on responses due to their static response schedule. When an event is received, there will be a period of time where the system is waiting for the necessary response task to run and respond to it. This is contrasted to an event driven system's capability of immediate reaction to external events. Albert et al\cite{albert2004comparison} demonstrates this in the test scenario comparing a time and event driven system during a critical situation. As well, it's noted that because transmission cannot take place until the response has ran and the time at which a critical situation will occur isn't known, the response period for a time-triggered system is susceptible to jitter as there's no way of knowing where tasks will be in their executions or delay periods when the critical event arrives.
 			
-			\subsection{Time-Triggered and RTOS}
-		
+			\subsection{Time-Triggered and RTOS - Wider Evaluation}
 		
 		\section{Question 3}
 		The formula for calculating the CAN message response time is shown in \ref{canmessageresponse}.
@@ -435,8 +438,6 @@ if(id == 0x24){
 			Power-on risks with the production line's hardware will need to be considered. The component's ROM contents could become corrupted by electromagnetic pulses, or the component's flash memory could be reprogrammed and cause issues (e.g. maybe parts of the memory are being incorrectly erased). These issues can be solved during the component's power-up phase by having the component run checks to ensure the validity of its state.
 			
 			Run-time issues are also a possibility. Like with the start up problem, electrical noise or a power supply fluctuation could cause the program the component is running to become corrupted. Check summing could be used here, where the component's program checks its validity against a checksum to determine if the program is in a proper state. Program copies could be used that have also been check summed, with components running the check summed copies should the program running be found to be corrupt.
-			
-			One hardware risk with the production line components is the contents of the ROM becoming corrupted by electronic pulses or radiation.
 
 
 	\bibliographystyle{plainnat}
