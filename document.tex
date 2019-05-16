@@ -302,6 +302,35 @@ if(id == 0x24){
 		The display system also performs all display functionality in the interrupt service routine. Whilst this doesn't seem to have any adverse effects yet, should the system expand and begin doing something more elaborate with received temperature data such as printing to an attached LCD, doing everything in the ISR might start to impede performance. To help with this, an EventQueue could be used. The Mbed RTOS features an EventQueue API\cite{mbedoseventqueue} that can be used to store events and defer the execution of the event code for a different context. For the display's ISR, the EventQueue could store interrupts containing temperature values and execute them outside of the interrupt context to prevent the interrupt blocking other tasks for too long.
 		
 		\section{Question 2}
+			\subsection{Measurement Procedure}
+			The FRDM-K64F features programmable interval timer chips which can be used to measure the execution time of code. By starting and stopping a PIT and retrieving the elapsed cycles, the amount of time that has elapsed during the execution of code can be measured. This is how the computation times of the temp and tacho tasks were performed. 
+			\medskip
+			
+			Before measurement, the counters were started and then instantly stopped. This was done to determine the amount of clock cycles it took to begin and end the counter, this could be subtracted from any measurements to gain a more accurate reading. Once this was done and saved as an entropy value, the PIT was started before the execution of a task in question and stopped after its code had finished executing. The entropy was then subtracted from this measurement. These measurements were taken over the course of a few minutes of the program running, and and an average, best, and worst computation time were recorded over the course of around 500 individual readings. The below code snippet shows this process being used to measure the tacho task.
+			\begin{lstlisting}
+	void tachoT(void){
+		counterStart();
+		int16_t dummyx = acc.getY(raY);
+		timeElapsed = counterStop() - entropy;
+			
+			
+		if(timeElapsed < bestTime){
+			bestTime = timeElapsed;
+		}
+			
+		if(timeElapsed > worstTime){
+			worstTime = timeElapsed;
+		}		
+	}
+			\end{lstlisting}
+			
+			\subsection{Measurement Quality}
+			The clock cycle measurements are high in precision, each viewed iteration had a similar clock cycle and didn't stray far from the average.
+			
+			
+			
+			\subsection{Worst-Case Time}
+			\subsection{Time-Triggered and RTOS}
 		
 		
 		\section{Question 3}
