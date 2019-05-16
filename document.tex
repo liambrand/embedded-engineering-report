@@ -333,6 +333,43 @@ if(id == 0x24){
 			Timing jitter is also a consideration here, where things like electromagnetic interference will affect the resulting clock cycle value by adding noise to it. The average should help somewhat here too, as the noise won't always be exactly the same and the average should help factor out more significantly noisy readings. The best case and worst case readings however aren't averaged out, so they could be affected significantly as they might just be a result of the least and most noise rather than true code execution time.
 			
 			\subsection{Worst-Case Time}
+			The measurements for the temperature task can be seen in \ref{executionmeasurementstemp}.
+			
+			\begin{table}[h]
+				\centering
+				\begin{tabular}{| l | l | l |} 
+					\hline
+					Reading & Cycles & Real-Time ($\mu $s) \\ [0.5ex] 
+					\hline
+					Average  & 16771 & 139.75 \\ 
+					Best & 16763 & 139.69 \\
+					Worst & 16931 & 141.09 \\
+					\hline
+				\end{tabular}
+				\caption{Temperature Task Readings}
+				\label{executionmeasurementstemp}
+			\end{table}
+		
+			The measurements for the tacho task can be seen in \ref{executionmeasurementstacho}.
+			
+			\begin{table}[h]
+				\centering
+				\begin{tabular}{| l | l | l |} 
+					\hline
+					Reading & Cycles & Real-Time ($\mu $s) \\ [0.5ex] 
+					\hline
+					Average  & 8333 & 69.44 \\ 
+					Best & 8328 & 69.4 \\
+					Worst & 8342 & 69.51 \\
+					\hline
+				\end{tabular}
+				\caption{Tacho Task Readings}
+				\label{executionmeasurementstacho}
+			\end{table}
+		
+			The worst-case execution time would be achieved with the arrival of a request right as the temperature task has finished executing and just before the tacho task begins its execution. For the request to be read here, the tacho task would need to complete its execution, the interval between temperature task executions would need to be waited for, and then the temperature task would need to be execute. We can find this by adding the worst measurements from both the temperature and tacho task, which comes to around 210.6 microseconds.
+			
+			
 			\subsection{Time-Triggered and RTOS}
 		
 		
