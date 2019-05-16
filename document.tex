@@ -327,6 +327,10 @@ if(id == 0x24){
 			\subsection{Measurement Quality}
 			The clock cycle measurements are high in precision, each viewed iteration had a similar clock cycle and didn't stray far from the average.
 			
+			In terms of accuracy, the removal of the entropy should help somewhat. The temperature task which runs at a period of 500, and the tacho task runs at a period of 25. This means that the tacho task should have ran around 25 times by the time the temperature task runs, and these executions will have affected the temperature task's measurements, as the tacho task will have been generating interrupts and blocking code execution. This is less of a problem for the tacho task with how frequently it runs, whilst there will be occassions where the interval is close and the tacho task is blocked by the temperature task, this will be infrequent enough for the average reading to have reduced its impact. 
+			
+			Whilst the removal of the saved entropy value helps somewhat, the tacho task with an interval of 20
+			
 			
 			
 			\subsection{Worst-Case Time}
