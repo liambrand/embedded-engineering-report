@@ -466,10 +466,32 @@ if(id == 0x24){
 			
 			\subsection{(c)}
 			Power-on risks with the production line's hardware will need to be considered. The component's ROM contents could become corrupted by electromagnetic pulses, or the component's flash memory could be reprogrammed and cause issues (e.g. maybe parts of the memory are being incorrectly erased). These issues can be solved during the component's power-up phase by having the component run checks to ensure the validity of its state.
+			\medskip
 			
 			Run-time issues are also a possibility. Like with the start up problem, electrical noise or a power supply fluctuation could cause the program the component is running to become corrupted. Check summing could be used here, where the component's program checks its validity against a checksum to determine if the program is in a proper state. Program copies could be used that have also been check summed, with components running the check summed copies should the program running be found to be corrupt.
 
-
+		\section{Section 2}
+			\subsection{(a)}
+				\subsubsection{Regular Sensor}
+				\textbf{Number of Outputs} - 240 \newline
+				\textbf{Maximum Absolute Discrepancy} - 13.4 \newline
+				\textbf{Mean} - 102.09 \newline
+				\textbf{Standard Deviation} - 6.37 \newline
+				
+				\subsubsection{Faulty Sensor}
+				\textbf{Number of Outputs} - 242 \newline
+				\textbf{Maximum Absolute Discrepancy} - 104.0 \newline
+				\textbf{Mean} - 121.80 \newline
+				\textbf{Standard Deviation} - 36.22 \newline
+			
+			
+			\subsection{(b)}
+			
+			
+			\subsection{(c)}
+			
+			
+		
 	\bibliographystyle{plainnat}
 	\bibliography{papers}
 
