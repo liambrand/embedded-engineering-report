@@ -149,9 +149,19 @@
 			The final iteration shows that each task's response time satisfies the condition of being less than or equal to the task period, so the set is schedulable using deadline-monotonic fixed-priority assignment. Task A's response time is higher than its deadline however, so it will not meet its deadline.
 			
 			\subsubsection{(e)}
+			The utilisation bounds theorem requires knowledge of exact task statistics such as the task periods and deadlines, and this cannot be guaranteed for every task that needs to be tested. As well, the theorem represents a utilisation value indicative of all tasks in a set starting simultaneously (e.g. at time t = 0), making it incredibly pessimistic. A better formula would determine the schedulability of a task set as a function of individual task CPU utilisations\cite{bini2001hyperbolic}. The formula that does this is the hyperbolic bound formula, and can be seen at \ref{hyperbolicbound}.
+			
+			\begin{equation}
+			\label{hyperbolicbound}
+			\prod_{i = 1}^{n}(U\textsubscript{i} + 1) \leq 2
+			\end{equation}
+			
+		
+		\subsection{Scheduling with Shared Resources}
+			\subsubsection{(a)}
 			Files are an example of a mutual exclusive resource, as only one task can be accessing a file at any given time to perform read or write operations on it. Another example is components like hardware timers, as if multiple tasks want to use the timer there will need to be controlled access to it. 
 			\medskip
-
+			
 			\textbf{Priority Inversion}\newline
 			An example which exhibits priority inversion can be seen with the Mars Pathfinder. The Pathfinder spacecraft has an information bus which was used to exchange information between the robot's various components. A high priority task ran frequently to manage the data on this bus, and access to the bus was synchronised with a mutex. The Pathfinder had another task for gathering meteorological data, which ran infrequently and had a low priority.  This task would acquire the bus' mutex before writing data to the bus. If an interrupt caused the information bus to be scheduled whilst the meteorologic task held it, the bus management task would pend on the mutex and wait for the meteorologic task to be done.  There was also a task with medium priority that dealt with communications. 
 			
@@ -170,19 +180,10 @@
 			As well, priority inheritance might prevent priority inversion but it doesn't minimize the time that tasks spend being blocked.
 			\medskip
 			
-			\textbf{An Alternative}
+			\textbf{An Alternative} \newline
 			To counter these problems, the priority ceiling protocol can be used. This involves assigning resources a priority ceiling, which is a priority that is equivalent to the highest priority of a task that is able to acquire the resource. This improves basic priority inheritance by minimizing the duration of blocking to, at most, the duration of a single critical section of a lower priority task\cite{goodenough1988priority}.
-		
-		\subsection{Scheduling with Shared Resources}
-			\subsubsection{Question a}
-			The utilisation bounds theorem requires knowledge of exact task statistics such as the task periods and deadlines, and this cannot be guaranteed for every task that needs to be tested. As well, the theorem represents a utilisation value indicative of all tasks in a set starting simultaneously (e.g. at time t = 0), making it incredibly pessimistic. A better formula would determine the schedulability of a task set as a function of individual task CPU utilisations\cite{bini2001hyperbolic}. The formula that does this is the hyperbolic bound formula, and can be seen at \ref{hyperbolicbound}.
-			
-			\begin{equation}
-			\label{hyperbolicbound}
-			\prod_{i = 1}^{n}(U\textsubscript{i} + 1) \leq 2
-			\end{equation}
 
-			\subsubsection{Question b}
+			\subsubsection{(b)}
 			Fig \ref{fig:tasktimeline} shows the task timeline and the timeline key.
 			\begin{figure}[h!]
 				\centering
@@ -522,7 +523,7 @@ if(id == 0x24){
 				A voter implementation was attempted but ultimately failed, due to the occassional occurrence of an out of bounds error. It can be viewed in Appendix \ref{voter}. The logic behind it involves the use of a checker function, rather than acquiring an average of readings, each reading in the sensor array would be collected and sent to the checker. The checker would iterate through the list, taking each reading and removing it. It would average all other readings that were taken, and see if the difference between the reading in question and the average of the other readings exceeded twice the sensor noise value. If it did, its location within the array would be flagged. It would then be purged from the array, and the readings minus the value identified as erroneous would be returned where the program would continue as normal.
 			
 				\subsubsection{Evaluation}
-				As can be seen from the results of the solo sensor and the sensor array tests, the standard deviation with a majority of faulty sensors manages to remain much lower than the standard deviation of a single faulty sensor. The average value approach's general lower deviation also shows that the impact of noise on the sensor readings has been reduced somewhat as well.
+				As can be seen from the results of the solo sensor and the sensor array tests, the standard deviation with a majority of faulty sensors still manages to remain much lower than the standard deviation of a single faulty sensor. The average value approach's general lower deviation also shows that the impact of noise on the sensor readings has been reduced somewhat as well.
 				
 				A voter system was unable to be implemented, so the exact figures cannot be reviewed. The theory behind is is sound though, as the program that simply uses an array still has relatively high standard deviation, likely caused from the erroneous readings being taken into the average. Should a voter system be created with a majority of faulty sensors however, the faulty sensors would likely win the vote and be taken as the true average. This is because, should the faulty sensors give an erroneous reading at the same time, the regular sensor that has not given an erroneous reading will actually appear to be the fault from the voter's perspective as it won't be in line with the majority average. In a situation where there is a high amount of unstable sensors, a simple average still suffers from noise and erroneous values but ultimately seems to cope better.
 			
@@ -535,7 +536,7 @@ if(id == 0x24){
 	\chapter{SensorSim Array}
 	\label{sensorsimcode}
 	\lstinputlisting[caption=Simulation.java, language=java, showstringspaces=false]{arraySim.java}
-	\chapter{Voter Function Attempt}
+	\chapter{Voter Function}
 	\label{voter}
 	\lstinputlisting[caption=voter.java, language=java, showstringspaces=false]{voter.java}
 	\end{appendices}
