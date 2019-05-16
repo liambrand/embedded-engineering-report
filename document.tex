@@ -421,7 +421,7 @@ if(id == 0x24){
 		\end{equation}
 		\medskip
 		
-		Now the worst-case queuing delay needs to be calculated. 
+		Now the worst-case transmission time is understood as 1080 microseconds. This number is multiplied by two because the response procedure involves the transmission of two messages, the request message and the acknowledgement message. This gives a worst-case transmission time of 2160.  Now the worst-case queuing delay needs to be calculated. 
 		
 		\section{Question 4}
 		Predictability in terms of an embedded control system concerns prior knowledge of a program's behaviour. Henzinger\cite{henzinger2008two} defines predictability for embedded software design as a number of different factors. These are the program's functional properties (e.g. what output does the program compute?), its reaction properties (e.g. when does the program provide the output?) and the program's execution properties (e.g. what resources are consumed to provide this output?). Lee\cite{Lee:EECS-2009-30} gives a similar explanation, in that predictable behaviour is program behaviour that can be determined in finite time through analysis of the program's design. Given information about the program's design, its behaviour should be able to be inferred depending on what inputs the program is given.
