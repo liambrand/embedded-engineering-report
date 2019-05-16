@@ -3,6 +3,7 @@
 \usepackage{amsmath}
 \usepackage{amsmath,amssymb}
 \usepackage[numbers]{natbib}
+\usepackage{graphicx}
 \usepackage{xcolor}
 \usepackage{appendix}
 \colorlet{mygray}{black!30}
@@ -34,9 +35,6 @@
 	title=\lstname                
 }
 
-
-
-
 % Title Page
 \title{CM0605 - Embedded Systems Engineering}
 \author{Liam Brand}
@@ -66,21 +64,6 @@
 			U = U = \sum_{i=1}^{N} \frac{C\textsubscript{i}}{T\textsubscript{i}} \leq n(2^\frac{1}{n} - 1)
 			\end{equation}
 			As previously discussed, the set's CPU utilisation is around 0.99. The given task set has 6 tasks, so the utilisation bound is around 0.73. This test is therefore false, meaning the task set is not schedulable using rate-monotonic priority assignment.
-			
-			%First a utilisation-based schedulability test can be used to determine whether or not the task set is schedulable using rate-monotonic priority assignment.
-			
-			%The necessary test is the following. If this test is negative, the task set is definitely not schedulable.
-			%\begin{equation*}
-			%U \leq 1
-			%\end{equation*}
-			
-			%The test is positive, so the sufficient schedulability test can be carried about. The sufficient test is the following, where \textit{n} is the number of tasks.
-			
-			%\begin{equation*}
-			%U \leq n(2^\frac{1}{n} - 1)
-			%\end{equation*}
-			
-			%For the given task set with 6 tasks, this formula equals approximately 0.73, meaning this test is negative. If the necessary schedulability test is positive but the sufficient schedulability test is negative, a better schedulability test is needed. 
 			
 			\subsubsection{(c)}
 			First the WCRT (worst case response time) for the task set must be calculated. This can be achieved via the given formula.
@@ -188,21 +171,32 @@
 			\medskip
 			
 			\textbf{An Alternative}
-
-
+			To counter these problems, the priority ceiling protocol can be used. This involves assigning resources a priority ceiling, which is a priority that is equivalent to the highest priority of a task that is able to acquire the resource. This improves basic priority inheritance by minimizing the duration of blocking to, at most, the duration of a single critical section of a lower priority task\cite{goodenough1988priority}.
 		
 		\subsection{Scheduling with Shared Resources}
 			\subsubsection{Question a}
-		
-
-% limitations - utilisation bounds are too limited because they are pessimistic, they assume no delays between tasks
-%	it expects all deadlines to be met regardless of the task priority itself
-%	you don't know if the remaining cpu utilization available is being used or if it's enough for remaining tasks
-%	cpu utilisation of each individual task rather than the cpu utilisation of the entire set, more specific and takes more into account
-% uninformative, doesn't say which tasks cause scheduling problems or which tasks will not meet their deadlines
+			The utilisation bounds theorem requires knowledge of exact task statistics such as the task periods and deadlines, and this cannot be guaranteed for every task that needs to be tested. As well, the theorem represents a utilisation value indicative of all tasks in a set starting simultaneously (e.g. at time t = 0), making it incredibly pessimistic. A better formula would determine the schedulability of a task set as a function of individual task CPU utilisations\cite{bini2001hyperbolic}. The formula that does this is the hyperbolic bound formula, and can be seen at \ref{hyperbolicbound}.
+			
+			\begin{equation}
+			\label{hyperbolicbound}
+			\prod_{i = 1}^{n}(U\textsubscript{i} + 1) \leq 2
+			\end{equation}
 
 			\subsubsection{Question b}
-			% give notes on when task resources are released and tasks are blocked, e.g. at clock cycle 4, resource T is acquired by Task A
+			Fig \ref{fig:tasktimeline} shows the task timeline and the timeline key.
+			\begin{figure}[h!]
+				\centering
+				\includegraphics[scale=0.3]{tasktimeline.png}
+				\caption{Task Timeline}
+				\label{fig:tasktimeline}
+			\end{figure}
+			\newline
+			\textbf{Tick 12} - Task E possesses Resource T, so it inherits the priority of Task B which attempted to acquire it and was subsequently blocked. \newline
+			\textbf{Tick 13} - Task A with a priority higher than Task B (and therefore E as it has inherited B's priority) begins. \newline
+			\textbf{Tick 16} - Task A attempts to acquire Resource S which Task D currently has locked, so Task D inherits Task A's priority. \newline
+			\textbf{Tick 18} - Task D finishes its execution with Resource S, so the resource is released and the Task returns to its original priority. Task A can now continue executing. \newline
+			\textbf{Tick 22} - Task A finishes so Task B attempts to continue executing, but when it attempts to acquire Resource T which Task E holds, it is blocked. Task E inherits B's priority and executes, blocking all other tasks as it now possesses a higher priority. \newline
+			\textbf{Tick 26} - Task E finishes with Resource T, releases it and moves down to its original priority. From here, execution continues in a normal fashion according to priority. \newline
 	
 	\chapter{A Distributed Real-time System}
 		\section{Question 1}
@@ -421,7 +415,14 @@ if(id == 0x24){
 		\end{equation}
 		\medskip
 		
-		Now the worst-case transmission time is understood as 1080 microseconds. This number is multiplied by two because the response procedure involves the transmission of two messages, the request message and the acknowledgement message. This gives a worst-case transmission time of 2160.  Now the worst-case queuing delay needs to be calculated. 
+		Now the worst-case transmission time is understood as 1080 microseconds. This number is multiplied by two because the response procedure involves the transmission of two messages, the request message and the acknowledgement message. This gives a worst-case transmission time of 2160.  Now the worst-case queuing delay needs to be calculated using the formula in \ref{queue}.
+		
+		\begin{equation}
+		\label{queue}
+		w\textsubscript{m} = B\textsuperscript{MAX} + \sum_{\forall k \in hp(m)}{\lceil \frac{w\textsubscript{m} + J\textsubscript{k} + \tau bit}{T\textsubscript{k}} \rceil}
+		\end{equation}
+		
+		Where B\textsuperscript{MAX} is the longest possible transmission time of a message on the bus, hp(m) is the set of all messages with a higher priority than message m, and T is the task period.
 		
 		\section{Question 4}
 		Predictability in terms of an embedded control system concerns prior knowledge of a program's behaviour. Henzinger\cite{henzinger2008two} defines predictability for embedded software design as a number of different factors. These are the program's functional properties (e.g. what output does the program compute?), its reaction properties (e.g. when does the program provide the output?) and the program's execution properties (e.g. what resources are consumed to provide this output?). Lee\cite{Lee:EECS-2009-30} gives a similar explanation, in that predictable behaviour is program behaviour that can be determined in finite time through analysis of the program's design. Given information about the program's design, its behaviour should be able to be inferred depending on what inputs the program is given.
