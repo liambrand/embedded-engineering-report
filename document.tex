@@ -327,9 +327,10 @@ if(id == 0x24){
 			\subsection{Measurement Quality}
 			The clock cycle measurements here should be fairly high in precision, as an average will help factor out noise from other readings and the time triggered nature of the engine monitor means that any interrupts will happen on a regular enough basis to not cause sporadically high or low readings.
 			
+			% is this right?
 			In terms of accuracy, the removal of the entropy should help somewhat. The timer interrupts will affect the readings here though. The temperature task runs at a period of 500, and the tacho task runs at a period of 25. This means that the tacho task should run around 25 times between each run of the temperature task, and these executions will affect the measurement of the temperature task's execution as the tacho task will be generating interrupts and blocking the task. This will be less of a problem for the tacho task with how frequently it runs, whilst there will be occassions where the interval is close and the tacho task is blocked by the temperature task, this will be infrequent enough for the average reading to reduce its impact. 
 			
-			
+			Timing jitter is also a consideration here, where things like electromagnetic interference will affect the resulting clock cycle value by adding noise to it. The average should help somewhat here too, as the noise won't always be exactly the same and the average should help factor out more significantly noisy readings. The best case and worst case readings however aren't averaged out, so they could be affected significantly as they might just be a result of the least and most noise rather than true code execution time.
 			
 			\subsection{Worst-Case Time}
 			\subsection{Time-Triggered and RTOS}
