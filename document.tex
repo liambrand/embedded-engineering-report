@@ -50,9 +50,9 @@
 			\subsubsection{(a)}
 			The utilisation of a task set is given by
 			
-			\begin{equation*}
+			\begin{equation}
 				U = \sum_{i=1}^{N} \frac{C\textsubscript{i}}{T\textsubscript{i}}
-			\end{equation*}
+			\end{equation}
 			%equation
 			
 			Where N is the number of tasks, C is the task's execution time and T is the task's period. The given task set's utilization is approximately 0.99.
@@ -60,9 +60,9 @@
 			\subsubsection{(b)}
 			A set of given tasks can be proved to be or not be schedulable using rate-monotonic priority assignment by using the utilisation-bound theorem. If the test is positive and the CPU utilisation is below the given bound, the set is schedulable.
 			
-			\begin{equation*}
+			\begin{equation}
 			U = U = \sum_{i=1}^{N} \frac{C\textsubscript{i}}{T\textsubscript{i}} \leq n(2^\frac{1}{n} - 1)
-			\end{equation*}
+			\end{equation}
 			As previously discussed, the set's CPU utilisation is around 0.99. The given task set has 6 tasks, so the utilisation bound is around 0.73. This test is therefore false, meaning the task set is not schedulable using rate-monotonic priority assignment.
 			
 			%First a utilisation-based schedulability test can be used to determine whether or not the task set is schedulable using rate-monotonic priority assignment.
@@ -82,9 +82,9 @@
 			
 			\subsubsection{(c)}
 			First the WCRT (worst case response time) for the task set must be calculated. This can be achieved via the given formula.
-			\begin{equation*}
+			\begin{equation}
 			R_i = C_i + \sum_{j \in hp(i)} \left\lceil \frac{R_i}{T_j} \right\rceil C_j
-			\end{equation*}
+			\end{equation}
 			
 			Where R is response time, C is CPU utilisation, and hp(i) denotes the set of tasks of priority higher than i.
 
@@ -302,15 +302,31 @@ if(id == 0x24){
 		The display system also performs all display functionality in the interrupt service routine. Whilst this doesn't seem to have any adverse effects yet, should the system expand and begin doing something more elaborate with received temperature data such as printing to an attached LCD, doing everything in the ISR might start to impede performance. To help with this, an EventQueue could be used. The Mbed RTOS features an EventQueue API\cite{mbedoseventqueue} that can be used to store events and defer the execution of the event code for a different context. For the display's ISR, the EventQueue could store interrupts containing temperature values and execute them outside of the interrupt context to prevent the interrupt blocking other tasks for too long.
 		
 		\section{Question 2}
-		The formula for calculating the CAN message response time is the following.
-		
-		\begin{equation}
-		R\textsubscript{m} = J\textsubscript{m} + w\textsubscript{m} + C\textsubscript{m}
-		\end{equation}
-		Where J is queuing jitter, w is worst-case queuing delay and C is worst-case message transmission time.
 		
 		
 		\section{Question 3}
+		The formula for calculating the CAN message response time is shown in \ref{canmessageresponse}.
+		
+		\begin{equation}
+		\label{canmessageresponse}
+		R\textsubscript{m} = J\textsubscript{m} + w\textsubscript{m} + C\textsubscript{m}
+		\end{equation}
+		Where J is queuing jitter, w is worst-case queuing delay, C is worst-case message transmission time and \textsubscript{m} is the message. This question assumes no queuing jitter, so the final formula used to calculate the message response time here will only involve w and C.
+		\medskip
+		
+		The message's worst-case transmission time can be calculated using \ref{worstcasetransmission}.
+		\begin{equation}
+		\label{worstcasetransmission}
+		C\textsubscript{m} = (g + 8s\textsubscript{m} + 13 + \lfloor \frac{g + 8s\textsubscript{m} - 1}{4} \rfloor ) \textsubscript{$\tau bit$}
+		\end{equation}
+		
+		Where g is 34 for a standard CAN frame, s\textsubscript{m} is the number of data bytes in the message, and \textsubscript{$\tau bit$} is the transmission time for 1 bit. This formula is simplified to \ref{worstcasesimplified} for 11 bit identifiers, which is what the CAN devices being employed here use.
+		
+		\begin{equation}
+		\label{worstcasesimplified}
+		C\textsubscript{m} = (55 + 10s\textsubscript{m})\textsubscript{$\tau bit$}
+		\end{equation}
+		
 		\section{Question 4}
 		
 	
